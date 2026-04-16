@@ -14,14 +14,20 @@ const SKILL_COLORS = [
   "linear-gradient(135deg,#56ab2f,#a8e063)",
 ];
 
-const DEFAULT_SKILLS = ["React", "JavaScript", "CSS", "HTML", "Node.js"];
-const DEFAULT_NAME = "Your Name";
+const DEFAULT_SKILLS = [
+  "React.js", "Node.js", "JavaScript", "Python", "Java",
+  "Express.js", "Flask", "FastAPI", "Full-Stack Development", "Back-End Web Development",
+  "SQL", "HTML", "HTML5",
+  "Microsoft Azure", "Azure DevOps Server", "Azure DevOps Services", "Azure SQL",
+  "Amazon Web Services (AWS)", "AWS Lambda", "Cloud Computing",
+];
+const DEFAULT_NAME = "Banke Bihari";
 
 export default function Portfolio() {
   /* ── Name state ── */
   const [name, setName] = useState(() => {
     try {
-      return localStorage.getItem("pf_name") || DEFAULT_NAME;
+      return localStorage.getItem("pf_name_v2") || DEFAULT_NAME;
     } catch {
       return DEFAULT_NAME;
     }
@@ -40,7 +46,7 @@ export default function Portfolio() {
     const val = nameInput.trim();
     if (val) {
       setName(val);
-      try { localStorage.setItem("pf_name", val); } catch {}
+      try { localStorage.setItem("pf_name_v2", val); } catch {}
     }
     setEditingName(false);
   };
@@ -50,7 +56,7 @@ export default function Portfolio() {
   /* ── Skills state ── */
   const [skills, setSkills] = useState(() => {
     try {
-      const s = localStorage.getItem("pf_skills");
+      const s = localStorage.getItem("pf_skills_v2");
       return s ? JSON.parse(s) : DEFAULT_SKILLS;
     } catch {
       return DEFAULT_SKILLS;
@@ -62,7 +68,7 @@ export default function Portfolio() {
   const skillInputRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem("pf_skills", JSON.stringify(skills));
+    localStorage.setItem("pf_skills_v2", JSON.stringify(skills));
   }, [skills]);
 
   const addSkill = () => {
@@ -94,7 +100,7 @@ export default function Portfolio() {
   /* ── Resume state ── */
   const [resume, setResume] = useState(() => {
     try {
-      const r = localStorage.getItem("pf_resume");
+      const r = localStorage.getItem("pf_resume_v2");
       return r ? JSON.parse(r) : null;
     } catch {
       return null;
@@ -121,7 +127,7 @@ export default function Portfolio() {
         dataUrl: ev.target.result,
       };
       try {
-        localStorage.setItem("pf_resume", JSON.stringify(data));
+        localStorage.setItem("pf_resume_v2", JSON.stringify(data));
         setResume(data);
       } catch {
         setUploadError("File too large to store. Try a smaller file.");
@@ -154,7 +160,7 @@ export default function Portfolio() {
 
   const deleteResume = () => {
     setResume(null);
-    localStorage.removeItem("pf_resume");
+    localStorage.removeItem("pf_resume_v2");
   };
 
   return (
@@ -214,9 +220,8 @@ export default function Portfolio() {
             </a>
           </div>
           <div className="hero-socials">
-            <a href="#contact" className="social-chip">GitHub</a>
-            <a href="#contact" className="social-chip">LinkedIn</a>
-            <a href="#contact" className="social-chip">Twitter</a>
+            <a href="https://github.com/bankebihari" target="_blank" rel="noreferrer" className="social-chip">GitHub</a>
+            <a href="https://www.linkedin.com/in/bankebihari01/" target="_blank" rel="noreferrer" className="social-chip">LinkedIn</a>
           </div>
         </div>
         <div className="scroll-hint">
@@ -427,32 +432,28 @@ export default function Portfolio() {
             <p className="sec-sub">Reach out — I&apos;d love to hear from you</p>
           </div>
           <div className="contact-grid">
-            <a href="mailto:yourmail@example.com" className="contact-card glass">
-              <span className="contact-icon">📧</span>
-              <div>
-                <strong>Email</strong>
-                <p>yourmail@example.com</p>
-              </div>
-            </a>
-            <a href="#" className="contact-card glass">
+            <a
+              href="https://www.linkedin.com/in/bankebihari01/"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-card glass"
+            >
               <span className="contact-icon">💼</span>
               <div>
                 <strong>LinkedIn</strong>
-                <p>Connect with me</p>
+                <p>linkedin.com/in/bankebihari01</p>
               </div>
             </a>
-            <a href="#" className="contact-card glass">
+            <a
+              href="https://github.com/bankebihari"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-card glass"
+            >
               <span className="contact-icon">🐙</span>
               <div>
                 <strong>GitHub</strong>
-                <p>Check my projects</p>
-              </div>
-            </a>
-            <a href="#" className="contact-card glass">
-              <span className="contact-icon">🐦</span>
-              <div>
-                <strong>Twitter</strong>
-                <p>Follow my thoughts</p>
+                <p>github.com/bankebihari</p>
               </div>
             </a>
           </div>
