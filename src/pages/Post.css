@@ -1,0 +1,129 @@
+.post-page {
+  min-height: 100vh;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.post-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 2.5rem;
+  transition: opacity 0.15s;
+}
+
+.back-link:hover {
+  opacity: 0.75;
+}
+
+.post-header {
+  margin-bottom: 2.5rem;
+}
+
+.post-header .category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.post-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.dot {
+  color: var(--border);
+}
+
+.post-body {
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.post-body p {
+  margin-bottom: 1.25rem;
+}
+
+.post-body h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2.25rem 0 0.75rem;
+  color: var(--text);
+}
+
+.post-body pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin: 1.25rem 0;
+}
+
+.post-body code {
+  font-family: "Fira Code", "Cascadia Code", monospace;
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  max-width: 45%;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.nav-link.next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.not-found {
+  text-align: center;
+  padding: 5rem 1rem;
+}
