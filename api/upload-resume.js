@@ -1,27 +1,33 @@
 import { put, del } from "@vercel/blob";
 
-export const config = { runtime: "edge" };
-
-export default async function handler(req) {
+export default async function handler(req, res) {
   if (req.method === "DELETE") {
-    const { url } = await req.json();
-    if (url) await del(url);
-    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { "Content-Type": "application/json" } });
+    try {
+      const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+      if (body?.url) await del(body.url, { token: process.env.BLOB_READ_WRITE_TOKEN });
+      return res.status(200).json({ ok: true });
+    } catch {
+      return res.status(500).json({ error: "Delete failed" });
+    }
   }
 
   if (req.method !== "PUT") {
-    return new Response("Method not allowed", { status: 405 });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const filename = req.headers.get("x-filename") || "resume.pdf";
-  const blob = await put(`resume/${filename}`, req.body, {
-    access: "public",
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    allowOverwrite: true,
-  });
-
-  return new Response(JSON.stringify({ url: blob.url, name: filename }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const filename = req.headers["x-filename"] || "resume.pdf";
+    const blob = await put(`resume/${filename}`, req, {
+      access: "public",
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      allowOverwrite: true,
+    });
+    return res.status(200).json({ url: blob.url, name: filename });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 }
+
+export const config = {
+  api: { bodyParser: false },
+};
