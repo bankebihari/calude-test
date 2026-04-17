@@ -1,19 +1,29 @@
-# React Blog & Portfolio
+# Portfolio
 
-A React + Vite app featuring a developer blog and a personal portfolio page.
+A personal developer portfolio built with React + Vite.
 
 ## Live Demo
 
-**[https://bankebihari.github.io/calude-test/](https://bankebihari.github.io/calude-test/)**
+**GitHub Pages:** [https://bankebihari.github.io/Portfolio/](https://bankebihari.github.io/Portfolio/)
+
+**Vercel:** [https://react-blog-bankebihari.vercel.app](https://react-blog-bankebihari.vercel.app) *(Vercel project: react-blog)*
 
 ## Features
 
-- **Blog** — Browse posts on React, CSS, and JavaScript
-- **Portfolio** — Personal portfolio with:
-  - Click-to-edit hero name (saved to localStorage)
-  - Add/remove skill tags (saved to localStorage)
-  - Resume upload, view, download, and delete
-  - Smooth scroll navigation
+- Click-to-edit hero name (saved to localStorage)
+- Add/remove skill tags (saved to localStorage)
+- Resume upload, view, download, and delete
+- Experience and Projects sections with add/edit/delete
+- Contact form and footer with GitHub link
+- Glassmorphism dark theme
+
+## Blog Posts (3 posts included in `/src/data/posts.js`)
+
+| # | Title | Category |
+|---|-------|----------|
+| 1 | Getting Started with React | React |
+| 2 | CSS Tips Every Developer Should Know | CSS |
+| 3 | JavaScript ES2024 Features | JavaScript |
 
 ## Getting Started
 
@@ -26,12 +36,21 @@ npm run dev
 
 ```bash
 npm run build
-npx gh-pages -d dist
 ```
+
+CI/CD is configured via GitHub Actions (`.github/workflows/deploy.yml`).  
+Every push to `main` automatically builds and deploys to **GitHub Pages**.
 
 ## Tech Stack
 
 - React 19
 - React Router v7
-- Vite 8
+- Vite
 - CSS (glassmorphism dark theme)
+
+## Deployments
+
+| Platform | URL | CI/CD |
+|----------|-----|-------|
+| GitHub Pages | https://bankebihari.github.io/Portfolio/ | Auto on push to `main` via GitHub Actions |
+| Vercel | https://react-blog-bankebihari.vercel.app | Manual / Vercel dashboard |

@@ -34,7 +34,7 @@ const DEFAULT_EXPERIENCES = [
 const DEFAULT_PROJECTS = [
   { id: 1, name: "DietWell", description: "Role-based diet management app with AI-powered diet plans.", link: "https://dietwell-pz1z.onrender.com", tags: ["React", "Tailwind CSS", "Flask", "MongoDB", "GitHub Actions"] },
   { id: 2, name: "LearnHub", description: "E-learning platform with authentication, payments, and admin dashboard.", link: "https://rainbow-quokka-10f671.netlify.app", tags: ["React", "Node.js", "Payments", "Admin"] },
-  { id: 3, name: "Portfolio Website", description: "Personal portfolio built with React and deployed on Vercel. Features dark theme, editable sections, and resume upload.", link: "https://react-blog-three-iota.vercel.app", tags: ["React", "CSS", "Vercel"] },
+  { id: 3, name: "Portfolio Website", description: "Personal portfolio built with React and deployed on Vercel. Features dark theme, editable sections, and resume upload.", link: "https://bankebihari-portfolio.vercel.app", tags: ["React", "CSS", "Vercel"] },
   { id: 4, name: "Blog Platform", description: "A two-page React blog with post listing and detail views, built with React Router and Vite.", link: "https://github.com/bankebihari/Portfolio", tags: ["React", "React Router", "Vite"] },
 ];
 
@@ -73,6 +73,10 @@ function AuthModal({ onConfirm, onCancel }) {
 }
 
 export default function Portfolio() {
+  /* ── Welcome toast ── */
+  const [showToast, setShowToast] = useState(true);
+  useEffect(() => { const t = setTimeout(() => setShowToast(false), 4000); return () => clearTimeout(t); }, []);
+
   /* ── Auth gate ── */
   const [authModal, setAuthModal] = useState(null); // null | { onConfirm }
   const requireAuth = (action) => setAuthModal({ onConfirm: () => { setAuthModal(null); action(); } });
@@ -248,6 +252,18 @@ export default function Portfolio() {
     <div className="pf">
       {authModal && <AuthModal onConfirm={authModal.onConfirm} onCancel={closeAuth} />}
 
+      {/* ── WELCOME TOAST ── */}
+      {showToast && (
+        <div className="welcome-toast">
+          <span className="toast-emoji">👋</span>
+          <div>
+            <p className="toast-title">Welcome!</p>
+            <p className="toast-sub">Thanks for visiting Banke&apos;s portfolio</p>
+          </div>
+          <button className="toast-close" onClick={() => setShowToast(false)}>✕</button>
+        </div>
+      )}
+
       {/* ── HERO ── */}
       <section id="home" className="hero">
         <div className="hero-bg">
@@ -258,7 +274,7 @@ export default function Portfolio() {
           {/* LEFT */}
           <div className="hero-left">
             <div className="hero-badge"><span className="badge-dot" />Available for opportunities</div>
-            <h1 className="hero-name">Hi, I&apos;m <span className="grad-text">Banke Bihari</span></h1>
+            <h1 className="hero-name">Hi, I&apos;m <span className="grad-text">Banke</span></h1>
             <h2 className="hero-role">Full Stack Developer</h2>
             <p className="hero-bio">I craft beautiful, high-performance web experiences with modern technologies. Passionate about clean code, intuitive design, and building things that matter.</p>
             <div className="hero-btns">
@@ -286,45 +302,6 @@ export default function Portfolio() {
           </div>
         </div>
         <div className="scroll-hint"><div className="scroll-line" /></div>
-      </section>
-
-      {/* ── ABOUT ── */}
-      <section id="about" className="section about-sec">
-        <div className="container">
-          <div className="sec-header">
-            <span className="sec-badge">About Me</span>
-            <h2 className="sec-title">💫 About Me</h2>
-            <p className="sec-sub">A passionate Web developer</p>
-          </div>
-          <div className="about-readme glass">
-            <ul className="readme-list">
-              {aboutPoints.map((pt, i) => (
-                <li key={i}>
-                  <span className="readme-icon">{pt.icon}</span>
-                  <span dangerouslySetInnerHTML={{ __html: pt.text }} />
-                  <button className="readme-del" onClick={() => requireAuth(() => deleteAboutPoint(i))} title="Remove (requires login)">✕</button>
-                </li>
-              ))}
-            </ul>
-            {showAboutInput ? (
-              <div className="about-add-row">
-                <input className="text-input about-icon-input" placeholder="emoji" maxLength={4}
-                  value={newPoint.icon} onChange={(e) => setNewPoint({ ...newPoint, icon: e.target.value })} />
-                <input className="text-input" style={{ flex: 1 }} placeholder="Point text…"
-                  value={newPoint.text}
-                  onChange={(e) => setNewPoint({ ...newPoint, text: e.target.value })}
-                  onKeyDown={(e) => { if (e.key === "Enter") saveAboutPoint(); if (e.key === "Escape") setShowAboutInput(false); }} />
-                <button className="btn btn-primary btn-sm" onClick={saveAboutPoint}>Add</button>
-                <button className="btn btn-ghost btn-sm" onClick={() => setShowAboutInput(false)}>Cancel</button>
-              </div>
-            ) : (
-              <button className="btn btn-outline add-btn" style={{ marginTop: "1.25rem" }}
-                onClick={() => requireAuth(() => { setShowAboutInput(true); setNewPoint({ icon: "✨", text: "" }); })}>
-                + Add Point
-              </button>
-            )}
-          </div>
-        </div>
       </section>
 
       {/* ── EXPERIENCE ── */}
@@ -386,18 +363,23 @@ export default function Portfolio() {
               <div key={proj.id} className="proj-card glass" draggable
                 onDragStart={() => onDragStart(i)} onDragEnter={() => onDragEnter(i)}
                 onDragEnd={onDragEnd} onDragOver={(e) => e.preventDefault()}>
-                <div className="proj-top">
-                  <div className="proj-drag-handle" title="Drag to reorder">⠿</div>
-                  <h3 className="proj-name">{proj.name}</h3>
-                  <div className="exp-actions">
-                    <button className="icon-btn" title="Edit (requires login)" onClick={() => editProj(proj)}>✎</button>
-                    <button className="icon-btn icon-btn--danger" title="Delete (requires login)" onClick={() => deleteProj(proj.id)}>✕</button>
+                <div className="proj-body">
+                  <div className="proj-top">
+                    <div className="proj-drag-handle" title="Drag to reorder">⠿</div>
+                    <h3 className="proj-name">{proj.name}</h3>
+                    <div className="exp-actions">
+                      <button className="icon-btn" title="Edit (requires login)" onClick={() => editProj(proj)}>✎</button>
+                      <button className="icon-btn icon-btn--danger" title="Delete (requires login)" onClick={() => deleteProj(proj.id)}>✕</button>
+                    </div>
                   </div>
+                  <p className="proj-desc">{proj.description}</p>
                 </div>
-                <p className="proj-desc">{proj.description}</p>
                 <div className="proj-footer">
                   <div className="proj-tags">{proj.tags.map((t) => <span key={t} className="proj-tag">{t}</span>)}</div>
-                  {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="proj-link">View →</a>}
+                  <div className="proj-footer-actions">
+                    <button className="proj-edit-btn" onClick={() => editProj(proj)}>View ✎</button>
+                    {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="proj-link">Visit ↗</a>}
+                  </div>
                 </div>
               </div>
             ))}
@@ -560,11 +542,41 @@ export default function Portfolio() {
       </section>
 
       <footer className="footer">
-        <div className="footer-inner">
-          <p>Designed &amp; built with <span className="heart">♥</span> by <strong>Banke Bihari</strong></p>
-          <a href="https://github.com/bankebihari/Portfolio" target="_blank" rel="noreferrer" className="footer-gh">
-            <span>⭐</span> View on GitHub
-          </a>
+        <div className="footer-container">
+          {/* Points row */}
+          <div className="footer-points">
+            {aboutPoints.map((pt, i) => (
+              <div key={i} className="footer-chip glass">
+                <span className="footer-chip-icon">{pt.icon}</span>
+                <span className="footer-chip-text" dangerouslySetInnerHTML={{ __html: pt.text }} />
+                <button className="readme-del footer-chip-del" onClick={() => requireAuth(() => deleteAboutPoint(i))} title="Remove (requires login)">✕</button>
+              </div>
+            ))}
+            {showAboutInput ? (
+              <div className="footer-chip-input glass">
+                <input className="text-input about-icon-input" placeholder="🔥" maxLength={4}
+                  value={newPoint.icon} onChange={(e) => setNewPoint({ ...newPoint, icon: e.target.value })} />
+                <input className="text-input" placeholder="Point text…" style={{ flex: 1, minWidth: 180 }}
+                  value={newPoint.text}
+                  onChange={(e) => setNewPoint({ ...newPoint, text: e.target.value })}
+                  onKeyDown={(e) => { if (e.key === "Enter") saveAboutPoint(); if (e.key === "Escape") setShowAboutInput(false); }} />
+                <button className="btn btn-primary btn-sm" onClick={saveAboutPoint}>Add</button>
+                <button className="btn btn-ghost btn-sm" onClick={() => setShowAboutInput(false)}>✕</button>
+              </div>
+            ) : (
+              <button className="footer-add-btn" onClick={() => requireAuth(() => { setShowAboutInput(true); setNewPoint({ icon: "✨", text: "" }); })}>
+                + Add
+              </button>
+            )}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="footer-bar">
+            <p>Designed &amp; built with <span className="heart">♥</span> by <strong>Banke Bihari</strong></p>
+            <a href="https://github.com/bankebihari/Portfolio" target="_blank" rel="noreferrer" className="footer-gh">
+              <span>⭐</span> View on GitHub
+            </a>
+          </div>
         </div>
       </footer>
     </div>
