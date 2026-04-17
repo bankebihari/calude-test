@@ -573,9 +573,6 @@ export default function Portfolio() {
           {/* Bottom bar */}
           <div className="footer-bar">
             <p>Designed &amp; built with <span className="heart">♥</span> by <strong>Banke Bihari</strong></p>
-            <a href="https://github.com/bankebihari/Portfolio" target="_blank" rel="noreferrer" className="footer-gh">
-              <span>⭐</span> View on GitHub
-            </a>
           </div>
         </div>
       </footer>
